@@ -231,20 +231,36 @@ function finish() {
 // CARGA CSV A LA NUBE
 function upCSV(id) {
     let f = document.getElementById(id).files[0];
-    if(!f) return alert("Selecciona archivo.");
+    if(!f) return alert("Por favor, selecciona un archivo CSV primero.");
+    
+    const btn = document.querySelector(`button[onclick="upCSV('${id}')"]`);
+    const originalText = btn.innerText;
+    btn.innerText = "SUBIENDO...";
+    btn.disabled = true;
+
     Papa.parse(f, {
         header: false,
         skipEmptyLines: true,
         complete: async function(results) {
-            // Filtrar para añadir solo las de esta carrera sin borrar las demás en el array local antes de subir
-            results.data.slice(1).forEach(c => {
-                if(c.length >= 7) {
-                    db.push({ carrera: c[0].toUpperCase().trim(), componente: c[1], tema: c[3], pregunta: c[4], "respuesta correcta": c[5], opciones: c[6], feedback: c[7] });
-                }
-            });
-            const response = await fetch(SCRIPT_URL + "?action=updateDatabase", { method: 'POST', body: JSON.stringify(db) });
-            alert("¡Servidor Actualizado!");
-            location.reload();
+            // Transformamos el CSV en el formato exacto que espera tu Google Sheets
+            // Mantenemos la estructura: Carrera, Componente, Subcomponente, Tema, Pregunta, Respuesta correcta, Opciones, Feedback, Bibliografía
+            const rows = results.data; 
+            
+            try {
+                const response = await fetch(SCRIPT_URL + "?action=updateDatabase", {
+                    method: 'POST',
+                    mode: 'no-cors', // Importante para evitar bloqueos de Google
+                    body: JSON.stringify(rows)
+                });
+                
+                alert("¡Base Global Actualizada con éxito! Todos tus estudiantes verán los cambios ahora.");
+                location.reload(); // Recargamos para que el Admin vea los nuevos conteos
+            } catch (error) {
+                console.error("Error al subir:", error);
+                alert("Hubo un problema con la conexión. Verifica que el Apps Script tenga acceso para 'Cualquiera'.");
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
         }
     });
 }
