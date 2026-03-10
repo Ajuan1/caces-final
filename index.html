@@ -77,7 +77,7 @@
             <div class="bg-slate-900 text-white px-4 py-1 rounded-xl font-mono text-lg shadow-inner" id="timer">10:00</div>
         </div>
         <div class="w-full bg-slate-200 h-2 rounded-full mb-8 overflow-hidden"><div id="progress" class="bg-blue-600 h-full transition-all duration-700 shadow-[0_0_10px_rgba(37,99,235,0.4)]"></div></div>
-        <div id="quizContent" class="bg-white p-10 rounded-[2.5rem] shadow-2xl border border-slate-50 mb-6 min-h-[350px] flex flex-col justify-center">
+        <div id="quizContent" class="bg-white p-10 rounded-[2.5rem] shadow-2xl border border-slate-50 mb-6 min-h-[350px] flex flex-col justify-center text-center">
             <p id="temaPregunta" class="text-[9px] text-blue-400 font-black mb-2 uppercase tracking-widest font-black"></p>
             <h3 id="question" class="text-xl font-bold text-slate-800 mb-8 leading-relaxed"></h3>
             <div id="options" class="grid gap-3"></div>
@@ -87,11 +87,12 @@
     <section id="results" class="hidden text-center pb-12">
         <div class="bg-white p-10 rounded-[3.5rem] shadow-2xl border relative overflow-hidden mb-12">
             <div id="bar" class="absolute top-0 left-0 w-full h-2"></div>
-            <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Nota Final</h2>
+            <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Puntaje Obtenido</h2>
             <div id="score" class="text-9xl font-black my-4 tracking-tighter text-blue-600"></div>
             <p id="resTxt" class="text-slate-600 font-bold mb-8 text-lg px-4 leading-tight"></p>
             <div class="mb-8 h-48 w-full"><canvas id="gaussChart"></canvas></div>
             <a id="waBtn" target="_blank" class="flex items-center justify-center gap-3 bg-[#25D366] text-white py-6 rounded-[2rem] font-black text-xl shadow-xl animate-wsp uppercase">🚀 ¡Asegura tu año de salud rural!</a>
+            <p class="text-red-600 text-[10px] font-black uppercase italic mt-6 px-4">Si no alcanzas el 70% perderás el sueldo de la rural y esperarás 6 meses sin trabajo.</p>
         </div>
         <div class="text-left space-y-6">
             <h3 class="text-2xl font-black text-slate-900 px-4 flex items-center gap-2"><span>📑</span> Revisión detallada</h3>
@@ -103,15 +104,15 @@
         <h2 class="text-2xl font-black mb-6 text-blue-900 uppercase">Panel Admin Meducators</h2>
         <div class="space-y-4">
             <div class="p-4 bg-blue-50 rounded-xl border border-blue-100">
-                <p class="text-[10px] font-black uppercase mb-2 text-blue-800">Medicina (<span id="c-MEDICINA">0</span>)</p>
+                <p class="text-[10px] font-black uppercase mb-2 text-blue-800">🩺 Medicina (<span id="c-MEDICINA">0</span>)</p>
                 <input type="file" id="fMed" accept=".csv" class="text-xs mb-2 block w-full"><button onclick="upCSV('fMed')" class="w-full bg-blue-600 text-white py-2 rounded-lg font-bold text-[10px] uppercase shadow-md transition hover:bg-blue-700">Actualizar Medicina</button>
             </div>
             <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
-                <p class="text-[10px] font-black uppercase mb-2 text-emerald-800">Enfermería (<span id="c-ENFERMERIA">0</span>)</p>
+                <p class="text-[10px] font-black uppercase mb-2 text-emerald-800">🏥 Enfermería (<span id="c-ENFERMERIA">0</span>)</p>
                 <input type="file" id="fEnf" accept=".csv" class="text-xs mb-2 block w-full"><button onclick="upCSV('fEnf')" class="w-full bg-emerald-600 text-white py-2 rounded-lg font-bold text-[10px] uppercase shadow-md transition hover:bg-emerald-700">Actualizar Enfermería</button>
             </div>
             <div class="p-4 bg-purple-50 rounded-xl border border-purple-100">
-                <p class="text-[10px] font-black uppercase mb-2 text-purple-800">Odontología (<span id="c-ODONTOLOGIA">0</span>)</p>
+                <p class="text-[10px] font-black uppercase mb-2 text-purple-800">🦷 Odontología (<span id="c-ODONTOLOGIA">0</span>)</p>
                 <input type="file" id="fOdo" accept=".csv" class="text-xs mb-2 block w-full"><button onclick="upCSV('fOdo')" class="w-full bg-purple-600 text-white py-2 rounded-lg font-bold text-[10px] uppercase shadow-md transition hover:bg-purple-700">Actualizar Odontología</button>
             </div>
         </div>
@@ -120,18 +121,21 @@
 </main>
 
 <footer class="bg-white border-t p-10 mt-12 text-center">
+    <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-8">Nuestras Redes Oficiales</p>
     <div class="flex justify-center gap-12 mb-10 text-3xl">
         <a href="https://www.instagram.com/meducators/" target="_blank" class="text-slate-400 hover:text-pink-600 transition"><i class="fab fa-instagram"></i></a>
         <a href="https://www.tiktok.com/@meducatorspro" target="_blank" class="text-slate-400 hover:text-black transition"><i class="fab fa-tiktok"></i></a>
         <a href="https://www.facebook.com/p/Meducators-61578339604369/" target="_blank" class="text-slate-400 hover:text-blue-600 transition"><i class="fab fa-facebook"></i></a>
     </div>
-    <p class="text-[9px] text-slate-300 font-bold uppercase tracking-widest leading-loose">© 2026 Meducators Academy - Aliados de Clínica Sancho</p>
+    <p class="text-[9px] text-slate-300 font-bold uppercase tracking-widest leading-loose">
+        © 2026 Meducators Academy - Aliados de Clínica Sancho
+    </p>
 </footer>
 
 <script>
-// --- CONEXIÓN A LA NUBE MEDUCATORS ---
+// --- MOTOR CORE V21 (CLOUD + MARKETING) ---
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzLLXVQKN1aI-odMOEi9ssueNs7uVCaZDO2cOr4b-gYwHbHY4omSTBLMUTzhDFEG-3S/exec";
-let db = [], quiz = [], idx = 0, score = 0, time = 600, tInterval, student = {}, hist = [];
+let db = [], quiz = [], idx = 0, score = 0, time = 600, tInterval, student = {}, hist = [], chart = null;
 
 const frases = ["¡Asegura tu sueldo de la Rural! 🩺", "No dejes tu futuro al azar 🇪🇨", "Únete al TOP 5% nacional 🏆", "Formamos líderes de salud 🎓"];
 
@@ -150,13 +154,23 @@ async function loadPreguntas() {
 
 window.onload = () => { loadPreguntas(); updateCupos(); };
 
-const showView = v => { document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden')); document.getElementById(v).classList.remove('hidden'); window.scrollTo(0,0); if(v === 'admin') updateAdminCounts(); };
+const showView = v => { 
+    document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden')); 
+    document.getElementById(v).classList.remove('hidden'); 
+    window.scrollTo(0,0);
+    if(v === 'admin') updateAdminCounts();
+};
+
 const adminLogin = () => { if(prompt("Pass:") === "admin123") showView("admin"); };
 const shuffle = a => a.sort(() => Math.random() - 0.5);
 
 function updateAdminCounts() {
     ['MEDICINA', 'ENFERMERIA', 'ODONTOLOGIA'].forEach(c => {
-        const count = db.filter(q => q.carrera && q.carrera.toUpperCase().trim() === c).length;
+        // Filtro robusto para contar preguntas por carrera
+        const count = db.filter(q => {
+            const carreraVal = (q.carrera || q.Carrera || "").toString().toUpperCase().trim();
+            return carreraVal === c;
+        }).length;
         const el = document.getElementById(`c-${c}`);
         if(el) el.innerText = count;
     });
@@ -168,18 +182,25 @@ function updateCupos() {
     document.getElementById('randomPhrase').innerText = frases[Math.floor(Math.random() * frases.length)];
 }
 
+function validateEmail(m) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m); }
+
 function goCareer() { 
-    student = {nom: document.getElementById("nombre").value.trim(), ape: document.getElementById("apellido").value.trim(), tel: document.getElementById("telefono").value.trim(), mail: document.getElementById("correo").value.trim(), fecha: new Date().toLocaleString()};
-    if(!student.nom || !student.mail.includes("@")) return alert("Por favor completa tus datos correctamente.");
+    const n = document.getElementById("nombre").value.trim(), m = document.getElementById("correo").value.trim();
+    if(!n || !validateEmail(m)) return alert("Completa tus datos correctamente.");
+    student = {nom:n, ape:document.getElementById("apellido").value, tel:document.getElementById("telefono").value, mail:m, fecha: new Date().toLocaleString()};
     showView("career");
 }
 
 function startQuiz(c) {
-    let filtered = db.filter(q => q.carrera && q.carrera.toUpperCase().trim() === c.toUpperCase().trim());
+    let filtered = db.filter(q => {
+        const carreraVal = (q.carrera || q.Carrera || "").toString().toUpperCase().trim();
+        return carreraVal === c.toUpperCase().trim();
+    });
+    
     if(!filtered.length) { document.getElementById("noQuestionsWarn").classList.remove("hidden"); return; }
     document.getElementById("noQuestionsWarn").classList.add("hidden");
     
-    // Guardar lead en Google Sheets
+    // Enviar Lead a la nube
     fetch(SCRIPT_URL + "?action=saveLead", {method: 'POST', mode: 'no-cors', body: JSON.stringify({...student, carrera: c})});
     
     quiz = shuffle([...filtered]).slice(0, 10);
@@ -192,26 +213,43 @@ function startQuiz(c) {
 
 function loadQ() {
     const q = quiz[idx], c = document.getElementById("options");
-    document.getElementById("temaPregunta").innerText = `${q.componente} / ${q.tema}`;
-    document.getElementById("question").innerText = q.pregunta;
+    const componente = q.componente || q.Componente || "";
+    const tema = q.tema || q.Tema || "";
+    const pregunta = q.pregunta || q.Pregunta || "";
+    const opcionesRaw = q.opciones || q.Opciones || "";
+    
+    document.getElementById("temaPregunta").innerText = `${componente} / ${tema}`;
+    document.getElementById("question").innerText = pregunta;
     document.getElementById("progress").style.width = (idx*10) + "%";
     c.innerHTML = "";
-    q.opciones.split('|').forEach(o => {
+    
+    const opts = opcionesRaw.split('|').map(o => o.trim());
+    shuffle([...opts]).forEach(o => {
         let b = document.createElement("button");
         b.className = "option-btn block w-full p-5 rounded-2xl text-left font-bold bg-white shadow-sm border transition hover:bg-slate-50";
-        b.innerText = o.trim();
-        b.onclick = () => check(o.trim(), b);
+        b.innerText = o;
+        b.onclick = () => check(o, b);
         c.appendChild(b);
     });
 }
 
 function check(ans, b) {
     if(document.querySelectorAll(".option-btn")[0].disabled) return;
-    const q = quiz[idx], isC = ans.toLowerCase() === q["respuesta correcta"].toString().trim().toLowerCase();
-    hist.push({q: q.pregunta, a: ans, r: q["respuesta correcta"], ok: isC, f: q.feedback});
-    document.querySelectorAll(".option-btn").forEach(btn => { if(btn.innerText.toLowerCase() === q["respuesta correcta"].toString().trim().toLowerCase()) btn.classList.add("correct-ans"); btn.disabled = true; });
+    const q = quiz[idx];
+    const correcta = (q["respuesta correcta"] || q["Respuesta correcta"] || "").toString().trim();
+    const feedback = q.feedback || q.Feedback || "";
+    const pregunta = q.pregunta || q.Pregunta || "";
+
+    const isC = ans.toLowerCase() === correcta.toLowerCase();
+    hist.push({q: pregunta, a: ans, r: correcta, ok: isC, f: feedback});
+    
+    document.querySelectorAll(".option-btn").forEach(btn => { 
+        if(btn.innerText.toLowerCase() === correcta.toLowerCase()) btn.classList.add("correct-ans"); 
+        btn.disabled = true; 
+    });
+    
     if(!isC) b.classList.add("wrong-ans"); else score++;
-    setTimeout(() => { idx++; if(idx < 10) loadQ(); else finish(); }, 1500);
+    setTimeout(() => { idx++; if(idx < 10) loadQ(); else finish(); }, 1600);
 }
 
 function finish() {
@@ -221,51 +259,65 @@ function finish() {
     document.getElementById("bar").className = `absolute top-0 left-0 w-full h-2 ${p<70?'bg-red-500':'bg-green-500'}`;
     document.getElementById("resTxt").innerText = p < 70 ? `${student.nom}, puntaje insuficiente.` : `¡Felicidades ${student.nom}! Tu éxito en el CACES empieza hoy.`;
     document.getElementById("waBtn").href = `https://wa.me/593998591941?text=Hola Meducators, soy ${student.nom}. Saqué ${p}% en el simulador.`;
+    
     const fList = document.getElementById("feedbackList"); fList.innerHTML = `<h3 class="text-2xl font-black text-slate-900 mb-6 tracking-tight">📑 Revisión Detallada</h3>`;
     hist.forEach((h, i) => { fList.innerHTML += `<div class="bg-white p-6 rounded-3xl shadow-md border-l-8 ${h.ok?'border-green-500':'border-red-500'} mb-4"><p class="font-bold text-slate-800 mb-2">${i+1}. ${h.q}</p><div class="text-xs space-y-2"><p><b>Respuesta:</b> <span class="${h.ok?'text-green-600':'text-red-600'}">${h.a}</span></p>${!h.ok?`<p class="text-blue-700 font-bold uppercase">Correcta: ${h.r}</p>`:''}<p class="text-slate-500 italic mt-2 pt-2 border-t"><b>Explicación:</b> ${h.f}</p></div></div>`; });
+    
     const ctx = document.getElementById('gaussChart').getContext('2d');
+    if(chart) chart.destroy();
     let l = [], d = []; for(let i=30; i<=100; i++){ l.push(i); d.push(Math.exp(-0.5*((i-75)/12)**2)); }
-    new Chart(ctx, { type:'line', data:{ labels: l, datasets:[{data: d, borderColor:'#1e40af', fill:true, pointRadius:0, tension:0.4, backgroundColor:'rgba(30,64,175,0.05)'},{type:'scatter', data:[{x:p, y:Math.exp(-0.5*((p-75)/12)**2)}], backgroundColor:'#ef4444', pointRadius:10}] }, options:{ maintainAspectRatio:false, scales:{y:{display:false},x:{grid:{display:false},ticks:{font:{size:9}}}} , plugins:{legend:{display:false}} } });
+    chart = new Chart(ctx, { type:'line', data:{ labels: l, datasets:[{data: d, borderColor:'#1e40af', fill:true, pointRadius:0, tension:0.4, backgroundColor:'rgba(30,64,175,0.05)'},{type:'scatter', data:[{x:p, y:Math.exp(-0.5*((p-75)/12)**2)}], backgroundColor:'#ef4444', pointRadius:10}] }, options:{ maintainAspectRatio:false, scales:{y:{display:false},x:{grid:{display:false},ticks:{font:{size:9}}}} , plugins:{legend:{display:false}} } });
 }
 
-// CARGA CSV A LA NUBE
+// CARGA CSV A LA NUBE (MANTIENE OTROS DATOS)
 function upCSV(id) {
     let f = document.getElementById(id).files[0];
-    if(!f) return alert("Por favor, selecciona un archivo CSV primero.");
+    if(!f) return alert("Selecciona archivo.");
     
     const btn = document.querySelector(`button[onclick="upCSV('${id}')"]`);
-    const originalText = btn.innerText;
     btn.innerText = "SUBIENDO...";
     btn.disabled = true;
 
     Papa.parse(f, {
-        header: false,
+        header: true,
         skipEmptyLines: true,
         complete: async function(results) {
-            // Transformamos el CSV en el formato exacto que espera tu Google Sheets
-            // Mantenemos la estructura: Carrera, Componente, Subcomponente, Tema, Pregunta, Respuesta correcta, Opciones, Feedback, Bibliografía
-            const rows = results.data; 
+            // Unificamos el nuevo CSV con lo que ya hay en la DB (para no borrar las otras facultades)
+            const carreraNueva = id === 'fMed' ? 'MEDICINA' : id === 'fEnf' ? 'ENFERMERIA' : 'ODONTOLOGIA';
             
+            // Filtramos la DB actual para quitar las viejas de ESTA carrera
+            let baseActualizada = db.filter(q => {
+                const cVal = (q.carrera || q.Carrera || "").toString().toUpperCase().trim();
+                return cVal !== carreraNueva;
+            });
+            
+            // Añadimos las nuevas
+            results.data.forEach(row => {
+                if(row.Pregunta || row.pregunta) baseActualizada.push(row);
+            });
+
             try {
-                const response = await fetch(SCRIPT_URL + "?action=updateDatabase", {
+                // Convertimos a matriz para Google Sheets (Header + Datos)
+                const headers = Object.keys(baseActualizada[0]);
+                const matrix = [headers, ...baseActualizada.map(obj => headers.map(h => obj[h]))];
+
+                await fetch(SCRIPT_URL + "?action=updateDatabase", {
                     method: 'POST',
-                    mode: 'no-cors', // Importante para evitar bloqueos de Google
-                    body: JSON.stringify(rows)
+                    mode: 'no-cors',
+                    body: JSON.stringify(matrix)
                 });
                 
-                alert("¡Base Global Actualizada con éxito! Todos tus estudiantes verán los cambios ahora.");
-                location.reload(); // Recargamos para que el Admin vea los nuevos conteos
-            } catch (error) {
-                console.error("Error al subir:", error);
-                alert("Hubo un problema con la conexión. Verifica que el Apps Script tenga acceso para 'Cualquiera'.");
-                btn.innerText = originalText;
-                btn.disabled = false;
+                alert("¡Servidor Meducators Actualizado!");
+                location.reload();
+            } catch (e) {
+                alert("Error al subir. Revisa la consola.");
+                btn.innerText = "Error";
             }
         }
     });
 }
 
-async function resetCloudDB() { if(confirm("¿Borrar todo en la nube?")) { await fetch(SCRIPT_URL + "?action=updateDatabase", { method: 'POST', body: JSON.stringify([]) }); location.reload(); } }
+async function resetCloudDB() { if(confirm("¿Borrar TODO el servidor?")) { await fetch(SCRIPT_URL + "?action=updateDatabase", { method: 'POST', mode: 'no-cors', body: JSON.stringify([]) }); location.reload(); } }
 </script>
 </body>
 </html>
