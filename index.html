@@ -9,12 +9,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
         .hidden { display: none; }
         .option-btn:active { transform: scale(0.98); background-color: #f1f5f9; }
-        /* Ya no se usan colores de respuesta inmediata por petición del usuario */
+        .correct-ans { border: 4px solid #10b981 !important; background: #f0fdf4 !important; }
+        .wrong-ans { border: 2px solid #ef4444 !important; background: #fef2f2 !important; }
         @keyframes pulse-wsp { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         .animate-wsp { animation: pulse-wsp 2s infinite; }
         .urgency-badge { animation: flash 1.5s infinite; }
@@ -26,7 +26,7 @@
 <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b p-4">
     <div class="max-w-5xl mx-auto flex justify-between items-center">
         <img src="meducators_logo.png" alt="Logo Meducators" class="h-10 cursor-pointer" onclick="location.reload()">
-        <div id="cloudStatus" class="text-[8px] font-black uppercase text-amber-500 bg-amber-50 px-2 py-1 rounded tracking-widest italic animate-pulse">Conectando...</div>
+        <div id="cloudStatus" class="text-[8px] font-black uppercase text-amber-500 bg-amber-50 px-2 py-1 rounded tracking-widest italic animate-pulse">Sincronizando...</div>
         <button onclick="adminLogin()" class="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-blue-600 transition">Panel Admin</button>
     </div>
 </header>
@@ -49,7 +49,7 @@
 
     <section id="student" class="hidden">
         <div class="bg-white p-10 rounded-[2.5rem] shadow-xl border">
-            <h2 class="text-2xl font-black mb-8 text-blue-900 tracking-tight text-center">Registro de Estudiante</h2>
+            <h2 class="text-2xl font-black mb-8 text-blue-900 tracking-tight text-center text-blue-900">Registro de Estudiante</h2>
             <div class="space-y-4">
                 <input id="nombre" placeholder="Nombre" class="w-full bg-slate-50 p-4 rounded-xl font-bold border-2 border-transparent focus:border-blue-500 outline-none transition shadow-sm">
                 <input id="apellido" placeholder="Apellido" class="w-full bg-slate-50 p-4 rounded-xl font-bold border-2 border-transparent focus:border-blue-500 outline-none transition shadow-sm">
@@ -88,13 +88,13 @@
     <section id="results" class="hidden text-center pb-12">
         <div class="bg-white p-10 rounded-[3.5rem] shadow-2xl border relative overflow-hidden mb-12">
             <div id="bar" class="absolute top-0 left-0 w-full h-2"></div>
-            <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Nota Obtenida</h2>
+            <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 tracking-widest">Nota Obtenida</h2>
             <div id="score" class="text-9xl font-black my-4 tracking-tighter text-blue-600"></div>
             <p id="resTxt" class="text-slate-900 font-extrabold mb-8 text-xl px-4 leading-tight"></p>
             
             <div class="mb-8 h-56 w-full relative"><canvas id="gaussChart"></canvas></div>
             
-            <a id="waBtn" target="_blank" class="flex items-center justify-center gap-3 bg-[#25D366] text-white py-6 rounded-[2rem] font-black text-xl shadow-xl animate-wsp uppercase">🚀 Enviar mi puntaje por WhatsApp</a>
+            <a id="waBtn" target="_blank" class="flex items-center justify-center gap-3 bg-[#25D366] text-white py-6 rounded-[2rem] font-black text-xl shadow-xl animate-wsp uppercase">🚀 ¡Para que no te pase eso, clic aquí!</a>
             
             <div class="mt-8 bg-red-50 border-2 border-red-100 p-6 rounded-[2.5rem] flex items-center gap-4 text-left">
                 <div class="text-3xl text-red-500"><i class="fas fa-exclamation-triangle"></i></div>
@@ -114,15 +114,15 @@
         <h2 class="text-2xl font-black mb-6 text-blue-900 uppercase">Panel Admin Meducators</h2>
         <div class="space-y-4">
             <div class="p-4 bg-blue-50 rounded-xl border border-blue-100">
-                <p class="text-[10px] font-black uppercase mb-2 text-blue-800 tracking-widest font-black italic">🩺 Medicina (<span id="c-MEDICINA">0</span>)</p>
+                <p class="text-[10px] font-black uppercase mb-2 text-blue-800 tracking-widest font-black">🩺 Medicina (<span id="c-MEDICINA">0</span>)</p>
                 <input type="file" id="fMed" accept=".csv" class="text-xs mb-2 block w-full"><button onclick="upCSV('fMed')" class="w-full bg-blue-600 text-white py-2 rounded-lg font-bold text-[10px] uppercase shadow-md transition hover:bg-blue-700">Actualizar Medicina</button>
             </div>
             <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
-                <p class="text-[10px] font-black uppercase mb-2 text-emerald-800 tracking-widest font-black italic">🏥 Enfermería (<span id="c-ENFERMERIA">0</span>)</p>
+                <p class="text-[10px] font-black uppercase mb-2 text-emerald-800 tracking-widest font-black">🏥 Enfermería (<span id="c-ENFERMERIA">0</span>)</p>
                 <input type="file" id="fEnf" accept=".csv" class="text-xs mb-2 block w-full"><button onclick="upCSV('fEnf')" class="w-full bg-emerald-600 text-white py-2 rounded-lg font-bold text-[10px] uppercase shadow-md transition hover:bg-emerald-700">Actualizar Enfermería</button>
             </div>
             <div class="p-4 bg-purple-50 rounded-xl border border-purple-100">
-                <p class="text-[10px] font-black uppercase mb-2 text-purple-800 tracking-widest font-black italic">🦷 Odontología (<span id="c-ODONTOLOGIA">0</span>)</p>
+                <p class="text-[10px] font-black uppercase mb-2 text-purple-800 tracking-widest font-black">🦷 Odontología (<span id="c-ODONTOLOGIA">0</span>)</p>
                 <input type="file" id="fOdo" accept=".csv" class="text-xs mb-2 block w-full"><button onclick="upCSV('fOdo')" class="w-full bg-purple-600 text-white py-2 rounded-lg font-bold text-[10px] uppercase shadow-md transition hover:bg-purple-700">Actualizar Odontología</button>
             </div>
         </div>
@@ -131,7 +131,7 @@
 </main>
 
 <footer class="bg-white border-t p-10 mt-12 text-center">
-    <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-8">Nuestras Redes Oficiales</p>
+    <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-8 tracking-widest">Nuestras Redes Oficiales</p>
     <div class="flex justify-center gap-12 mb-10">
         <a href="https://www.instagram.com/meducators/" target="_blank" class="text-slate-400 hover:text-pink-600 transition transform hover:scale-125"><i class="fab fa-instagram"></i></a>
         <a href="https://www.tiktok.com/@meducatorspro" target="_blank" class="text-slate-400 hover:text-black transition transform hover:scale-125"><i class="fab fa-tiktok"></i></a>
@@ -141,13 +141,13 @@
 </footer>
 
 <script>
-// --- MOTOR CLOUD DE ALTA PRECISIÓN V25 ---
+// PEGA TU LINK DE GOOGLE AQUÍ:
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyBn2gLrTj9lJCWRO0_7upuGM4EorXMyWJ6s3K6QfDIGL74ackCB211P1Bi6gVKDyDq/exec";
-let db = [], quiz = [], idx = 0, score = 0, time = 600, tInterval, student = {}, hist = [], chart = null;
+
+let db = [], quiz = [], idx = 0, score = 0, time = 600, tInterval, student = {}, hist = [], chart = null, selectedCareer = "";
 
 const frases = ["¡Asegura tu sueldo de la Rural! 🩺", "No dejes tu futuro al azar 🇪🇨", "Únete al TOP 5% nacional 🏆", "Formamos líderes de salud 🎓"];
 
-// Algoritmo Fisher-Yates (Mezcla perfecta)
 const shuffle = a => {
     let res = [...a];
     for (let i = res.length - 1; i > 0; i--) {
@@ -176,7 +176,6 @@ const showView = v => {
     document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden')); 
     document.getElementById(v).classList.remove('hidden'); 
     window.scrollTo(0,0);
-    if(v === 'admin') updateAdminCounts();
 };
 
 const adminLogin = () => { if(prompt("Pass:") === "admin123") showView("admin"); };
@@ -203,14 +202,11 @@ function goCareer() {
 }
 
 function startQuiz(c) {
+    selectedCareer = c;
     let filtered = db.filter(q => (q.carrera || q.Carrera || "").toString().toUpperCase().trim() === c.toUpperCase().trim());
     if(!filtered.length) { document.getElementById("noQuestionsWarn").classList.remove("hidden"); return; }
     document.getElementById("noQuestionsWarn").classList.add("hidden");
     
-    // Guardar Lead
-    fetch(SCRIPT_URL + "?action=saveLead", {method: 'POST', mode: 'no-cors', body: JSON.stringify({...student, carrera: c})});
-    
-    // Mezclar preguntas y tomar 10
     quiz = shuffle([...filtered]).slice(0, 10);
     idx = 0; score = 0; time = 600; hist = [];
     document.getElementById("careerLabel").innerText = c;
@@ -223,12 +219,9 @@ function loadQ() {
     const q = quiz[idx], c = document.getElementById("options");
     document.getElementById("temaPregunta").innerText = `${q.componente || q.Componente} / ${q.tema || q.Tema}`;
     document.getElementById("question").innerText = q.pregunta || q.Pregunta;
-    
-    // Barra de progreso
     document.getElementById("progress").style.width = ((idx + 1) * 10) + "%";
     
     c.innerHTML = "";
-    // Mezclar opciones
     let opts = (q.opciones || q.Opciones).split('|').map(o => o.trim());
     shuffle([...opts]).forEach(o => {
         let b = document.createElement("button");
@@ -247,9 +240,8 @@ function check(ans, b) {
     
     hist.push({q: q.pregunta || q.Pregunta, a: ans, r: corr, ok: isC, f: q.feedback || q.Feedback});
     
-    // NO pintamos la opción, solo desactivamos y pasamos a la siguiente
+    // MODO EXAMEN REAL: No se pinta nada al seleccionar
     document.querySelectorAll(".option-btn").forEach(btn => btn.disabled = true);
-    
     if(isC) score++;
     
     setTimeout(() => { idx++; if(idx < 10) loadQ(); else finish(); }, 600);
@@ -261,7 +253,6 @@ function finish() {
     document.getElementById("score").innerText = p + "%";
     document.getElementById("bar").className = `absolute top-0 left-0 w-full h-2 ${p<70?'bg-red-500':'bg-green-500'}`;
     
-    // Mensajes condicionales de nota
     if(p < 70) {
         document.getElementById("resTxt").innerText = "Tranquilo asegura con nuestro método que apruébes el examen";
     } else {
@@ -270,10 +261,12 @@ function finish() {
     
     document.getElementById("waBtn").href = `https://wa.me/593998591941?text=Hola Meducators, soy ${student.nom}. Saqué ${p}% en el simulador.`;
     
-    const fList = document.getElementById("feedbackList"); fList.innerHTML = "";
-    hist.forEach((h, i) => { fList.innerHTML += `<div class="bg-white p-6 rounded-3xl shadow-md border-l-8 ${h.ok?'border-green-500':'border-red-500'} mb-4 text-left"><p class="font-bold text-slate-800 mb-2">${i+1}. ${h.q}</p><div class="text-xs space-y-2"><p><b>Respuesta:</b> <span class="${h.ok?'text-green-600':'text-red-600'}">${h.a}</span></p>${!h.ok?`<p class="text-blue-700 font-bold uppercase">Correcta: ${h.r}</p>`:''}<p class="text-slate-500 italic mt-2 pt-2 border-t"><b>Feedback:</b> ${h.f}</p></div></div>`; });
+    // GUARDAR EN GOOGLE SHEETS CON NOTA
+    fetch(SCRIPT_URL + "?action=saveLead", {method: 'POST', mode: 'no-cors', body: JSON.stringify({...student, carrera: selectedCareer, puntaje: p + "%"})});
     
-    // Gauss
+    const fList = document.getElementById("feedbackList"); fList.innerHTML = "";
+    hist.forEach((h, i) => { fList.innerHTML += `<div class="bg-white p-6 rounded-3xl shadow-md border-l-8 ${h.ok?'border-green-500':'border-red-500'} mb-4 text-left"><p class="font-bold text-slate-800 mb-2">${i+1}. ${h.q}</p><div class="text-xs space-y-2"><p><b>Respuesta:</b> <span class="${h.ok?'text-green-600':'text-red-600'}">${h.a}</span></p>${!h.ok?`<p class="text-blue-700 font-bold uppercase">Correcta: ${h.r}</p>`:''}<p class="text-slate-500 italic mt-2 pt-2 border-t"><b>Explicación:</b> ${h.f}</p></div></div>`; });
+    
     setTimeout(() => {
         const ctx = document.getElementById('gaussChart').getContext('2d');
         if(chart) chart.destroy();
@@ -283,8 +276,7 @@ function finish() {
 }
 
 function upCSV(id) {
-    let f = document.getElementById(id).files[0];
-    if(!f) return alert("Selecciona archivo.");
+    let f = document.getElementById(id).files[0]; if(!f) return alert("Selecciona archivo.");
     const btn = document.querySelector(`button[onclick="upCSV('${id}')"]`);
     btn.innerText = "SUBIENDO..."; btn.disabled = true;
 
@@ -297,7 +289,7 @@ function upCSV(id) {
             const headers = Object.keys(base[0]);
             const matrix = [headers, ...base.map(obj => headers.map(h => obj[h]))];
             await fetch(SCRIPT_URL + "?action=updateDatabase", { method: 'POST', mode: 'no-cors', body: JSON.stringify(matrix) });
-            alert("¡Base Actualizada con éxito!");
+            alert("¡Servidor Actualizado!");
             location.reload();
         }
     });
