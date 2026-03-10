@@ -13,7 +13,7 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
         .hidden { display: none; }
         .option-btn:active { transform: scale(0.98); background-color: #f1f5f9; }
-        /* Colores Sociales Oficiales */
+        /* Colores Redes Sociales */
         .fa-instagram { color: #E4405F; }
         .fa-tiktok { color: #000000; }
         .fa-facebook { color: #1877F2; }
@@ -28,7 +28,7 @@
 <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b p-4">
     <div class="max-w-5xl mx-auto flex justify-between items-center">
         <img src="meducators_logo.png" alt="Logo Meducators" class="h-10 cursor-pointer" onclick="location.reload()">
-        <div id="cloudStatus" class="text-[8px] font-black uppercase text-amber-500 bg-amber-50 px-2 py-1 rounded tracking-widest italic animate-pulse">Conectando...</div>
+        <div id="cloudStatus" class="text-[8px] font-black uppercase text-emerald-500 bg-emerald-50 px-2 py-1 rounded tracking-widest italic animate-pulse">Sincronizando...</div>
         <button onclick="adminLogin()" class="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-blue-600 transition">Panel Admin</button>
     </div>
 </header>
@@ -42,9 +42,9 @@
                 <div class="mb-4 inline-flex items-center bg-red-600 px-3 py-1 rounded-full text-[10px] font-black uppercase urgency-badge">
                     🔥 Solo quedan <span class="cupos-count mx-1">--</span> cupos para hoy
                 </div>
-                <p id="randomPhrase" class="text-blue-400 text-[11px] font-black uppercase mb-6 italic h-4"></p>
+                <p id="randomPhrase" class="text-blue-400 text-[11px] font-black uppercase tracking-widest mb-6 italic h-4"></p>
                 <h2 class="text-4xl font-extrabold mb-8 tracking-tighter leading-tight">Simula tu éxito profesional</h2>
-                <button onclick="showView('student')" class="bg-white text-slate-900 px-10 py-5 rounded-2xl font-black text-lg shadow-xl hover:scale-105 transition uppercase tracking-widest">Empezar</button>
+                <button onclick="showView('student')" class="bg-white text-slate-900 px-10 py-5 rounded-2xl font-black text-lg shadow-xl hover:scale-105 transition uppercase">Empezar</button>
             </div>
         </div>
     </section>
@@ -90,7 +90,7 @@
     <section id="results" class="hidden text-center pb-12">
         <div class="bg-white p-10 rounded-[3.5rem] shadow-2xl border relative overflow-hidden mb-12">
             <div id="bar" class="absolute top-0 left-0 w-full h-2"></div>
-            <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Nota Final</h2>
+            <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Nota Obtenida</h2>
             <div id="score" class="text-9xl font-black my-4 tracking-tighter text-blue-600"></div>
             <p id="resTxt" class="text-slate-900 font-extrabold mb-8 text-xl px-4 leading-tight"></p>
             
@@ -116,16 +116,16 @@
         <h2 class="text-2xl font-black mb-6 text-blue-900 uppercase">Panel Admin Meducators</h2>
         <div class="space-y-4">
             <div class="p-4 bg-blue-50 rounded-xl border border-blue-100">
-                <p class="text-[10px] font-black uppercase mb-2 text-blue-800 tracking-widest font-black italic">🩺 Medicina (<span id="c-MEDICINA">0</span>)</p>
+                <p class="text-[10px] font-black uppercase mb-2 text-blue-800">🩺 Medicina (<span id="c-MEDICINA">0</span>)</p>
                 <input type="file" id="fMed" accept=".csv" class="text-xs mb-2 block w-full"><button onclick="upCSV('fMed')" class="w-full bg-blue-600 text-white py-2 rounded-lg font-bold text-[10px] uppercase shadow-md transition hover:bg-blue-700">Actualizar Medicina</button>
             </div>
             <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
-                <p class="text-[10px] font-black uppercase mb-2 text-emerald-800 tracking-widest font-black italic">🏥 Enfermería (<span id="c-ENFERMERIA">0</span>)</p>
-                <input type="file" id="fEnf" accept=".csv" class="text-xs mb-2 block w-full"><button onclick="upCSV('fEnf')" class="w-full bg-emerald-600 text-white py-2 rounded-lg font-bold text-[10px] uppercase shadow-md transition hover:bg-emerald-700">Actualizar Enfermería</button>
+                <p class="text-[10px] font-black uppercase mb-2 text-emerald-800">🏥 Enfermería (<span id="c-ENFERMERIA">0</span>)</p>
+                <input type="file" id="fEnf" accept=".csv" class="text-xs mb-2 block w-full"><button onclick="upCSV('fEnf')" class="w-full bg-blue-600 text-white py-2 rounded-lg font-bold text-[10px] uppercase shadow-md transition hover:bg-blue-700">Actualizar Enfermería</button>
             </div>
             <div class="p-4 bg-purple-50 rounded-xl border border-purple-100">
-                <p class="text-[10px] font-black uppercase mb-2 text-purple-800 tracking-widest font-black italic">🦷 Odontología (<span id="c-ODONTOLOGIA">0</span>)</p>
-                <input type="file" id="fOdo" accept=".csv" class="text-xs mb-2 block w-full"><button onclick="upCSV('fOdo')" class="w-full bg-purple-600 text-white py-2 rounded-lg font-bold text-[10px] uppercase shadow-md transition hover:bg-purple-700">Actualizar Odontología</button>
+                <p class="text-[10px] font-black uppercase mb-2 text-purple-800">🦷 Odontología (<span id="c-ODONTOLOGIA">0</span>)</p>
+                <input type="file" id="fOdo" accept=".csv" class="text-xs mb-2 block w-full"><button onclick="upCSV('fOdo')" class="w-full bg-blue-600 text-white py-2 rounded-lg font-bold text-[10px] uppercase shadow-md transition hover:bg-blue-700">Actualizar Odontología</button>
             </div>
         </div>
         <button onclick="resetCloudDB()" class="mt-8 text-red-400 font-bold text-[9px] uppercase hover:text-red-600 transition tracking-widest">Borrar Servidor (RESET)</button>
@@ -143,9 +143,7 @@
 </footer>
 
 <script>
-// --- TU NUEVO LINK DE GOOGLE ---
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzyuo9DeMvJ7g_O-8Huk9a_eXsWldhRXak_w3AvsNKWx_QX8xwiYV6i-pt6jyuayqrG/exec";
-
 let db = [], quiz = [], idx = 0, score = 0, time = 600, tInterval, student = {}, hist = [], chart = null, currentCareer = "";
 
 const frases = ["¡Asegura tu sueldo de la Rural! 🩺", "No dejes tu futuro al azar 🇪🇨", "Únete al TOP 5% nacional 🏆", "Formamos líderes de salud 🎓"];
@@ -174,12 +172,7 @@ async function loadPreguntas() {
 
 window.onload = () => { loadPreguntas(); updateCupos(); };
 
-const showView = v => { 
-    document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden')); 
-    document.getElementById(v).classList.remove('hidden'); 
-    window.scrollTo(0,0);
-};
-
+const showView = v => { document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden')); document.getElementById(v).classList.remove('hidden'); window.scrollTo(0,0); };
 const adminLogin = () => { if(prompt("Pass:") === "admin123") showView("admin"); };
 
 function updateAdminCounts() {
@@ -209,7 +202,7 @@ function startQuiz(c) {
     if(!filtered.length) { document.getElementById("noQuestionsWarn").classList.remove("hidden"); return; }
     document.getElementById("noQuestionsWarn").classList.add("hidden");
     
-    // Mezcla de preguntas
+    // Aleatoriedad de preguntas
     quiz = shuffle([...filtered]).slice(0, 10);
     idx = 0; score = 0; time = 600; hist = [];
     document.getElementById("careerLabel").innerText = c;
@@ -223,9 +216,9 @@ function loadQ() {
     document.getElementById("temaPregunta").innerText = `${q.componente || q.Componente || ""} / ${q.tema || q.Tema || ""}`;
     document.getElementById("question").innerText = q.pregunta || q.Pregunta;
     document.getElementById("progress").style.width = ((idx + 1) * 10) + "%";
-    
     c.innerHTML = "";
-    // Mezcla de opciones
+    
+    // Aleatoriedad de opciones
     let opts = (q.opciones || q.Opciones).split('|').map(o => o.trim());
     shuffle([...opts]).forEach(o => {
         let b = document.createElement("button");
@@ -241,11 +234,11 @@ function check(ans, b) {
     const q = quiz[idx];
     const corr = (q["respuesta correcta"] || q["Respuesta correcta"] || "").toString().trim();
     const isC = ans.toLowerCase() === corr.toLowerCase();
-    
     hist.push({q: q.pregunta || q.Pregunta, a: ans, r: corr, ok: isC, f: q.feedback || q.Feedback});
+    
+    // MODO EXAMEN REAL: No se pinta nada
     document.querySelectorAll(".option-btn").forEach(btn => btn.disabled = true);
     if(isC) score++;
-    
     setTimeout(() => { idx++; if(idx < 10) loadQ(); else finish(); }, 600);
 }
 
@@ -255,7 +248,7 @@ function finish() {
     document.getElementById("score").innerText = p + "%";
     document.getElementById("bar").className = `absolute top-0 left-0 w-full h-2 ${p<70?'bg-red-500':'bg-green-500'}`;
     
-    // Mensajes Personalizados
+    // MENSAJES PERSONALIZADOS SEGÚN NOMBRE Y NOTA
     if(p < 70) {
         document.getElementById("resTxt").innerText = `${student.nom}, tranquilo/a asegura con nuestro método que apruebes el examen`;
     } else {
@@ -264,7 +257,7 @@ function finish() {
     
     document.getElementById("waBtn").href = `https://wa.me/593998591941?text=Hola Meducators, soy ${student.nom}. Saqué ${p}% en el simulador.`;
     
-    // GUARDAR EN GOOGLE SHEETS (CON NOTA)
+    // ENVÍO DE DATOS A GOOGLE SHEETS (CON NOTA FINAL)
     fetch(SCRIPT_URL + "?action=saveLead", {
         method: 'POST', 
         mode: 'no-cors', 
