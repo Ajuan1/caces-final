@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulador CACES - Meducators Premium</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/css/intlTelInput.css">
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/intlTelInput.min.js"></script>
+
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
         .hidden { display: none; }
@@ -22,6 +27,16 @@
         .animate-wsp { animation: pulse-wsp 2s infinite; }
         .urgency-badge { animation: flash 1.5s infinite; }
         @keyframes flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* Estilos para el Input de Teléfono */
+        .iti { width: 100%; margin-bottom: 1rem; }
+        .iti__country-list { 
+            color: #1e293b; 
+            text-align: left; 
+            border-radius: 1rem; 
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            z-index: 100; 
+        }
     </style>
 </head>
 <body class="text-slate-900 flex flex-col min-h-screen">
@@ -40,7 +55,7 @@
         <div class="bg-slate-900 rounded-[3rem] p-12 shadow-2xl relative overflow-hidden text-white border-4 border-blue-900">
             <div class="absolute top-0 right-0 w-64 h-64 bg-blue-600 rounded-full filter blur-[100px] opacity-20 -mr-20 -mt-20"></div>
             <div class="relative z-10">
-                <div class="mb-4 inline-flex items-center bg-red-600 px-3 py-1 rounded-full text-[10px] font-black uppercase urgency-badge">🔥 Solo quedan <span class="cupos-count mx-1">--</span> cupos</div>
+                <div class="mb-4 inline-flex items-center bg-red-600 px-3 py-1 rounded-full text-[10px] font-black uppercase urgency-badge">🔥 Prepárate para el éxito</div>
                 <p id="randomPhrase" class="text-blue-400 text-[11px] font-black uppercase tracking-widest mb-6 italic h-4"></p>
                 <h2 class="text-4xl font-extrabold mb-8 tracking-tighter leading-tight italic">Simula tu éxito profesional</h2>
                 <button onclick="showView('student')" class="bg-white text-slate-900 px-10 py-5 rounded-2xl font-black text-lg shadow-xl hover:scale-105 transition uppercase">Empezar</button>
@@ -49,13 +64,25 @@
     </section>
 
     <section id="student" class="hidden">
-        <div class="bg-white p-10 rounded-[2.5rem] shadow-xl border">
-            <h2 class="text-2xl font-black mb-8 text-blue-900 tracking-tight text-center">Registro de Estudiante</h2>
-            <div class="space-y-4">
+        <div class="bg-white p-10 rounded-[2.5rem] shadow-xl border text-center">
+            <h2 class="text-2xl font-black mb-8 text-blue-900 tracking-tight">Registro de Estudiante</h2>
+            <div class="space-y-4 text-left">
                 <input id="nombre" placeholder="Nombre" class="w-full bg-slate-50 p-4 rounded-xl font-bold border-2 border-transparent focus:border-blue-500 outline-none transition shadow-sm">
                 <input id="apellido" placeholder="Apellido" class="w-full bg-slate-50 p-4 rounded-xl font-bold border-2 border-transparent focus:border-blue-500 outline-none transition shadow-sm">
-                <input id="telefono" type="tel" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="WhatsApp (Ej: 0998591941)" class="w-full bg-slate-50 p-4 rounded-xl font-bold border-2 border-transparent focus:border-blue-500 outline-none shadow-sm">
-                <input id="correo" type="email" placeholder="Correo Electrónico" class="w-full bg-slate-50 p-4 rounded-xl font-bold border-2 border-transparent focus:border-blue-500 outline-none shadow-sm">
+                
+                <input id="telefono" type="tel" class="w-full bg-slate-50 p-4 rounded-xl font-bold border-2 border-transparent focus:border-blue-500 outline-none shadow-sm">
+                
+                <input id="correo" type="email" placeholder="Correo (ejemplo@gmail.com)" class="w-full bg-slate-50 p-4 rounded-xl font-bold border-2 border-transparent focus:border-blue-500 outline-none shadow-sm">
+                
+                <div class="flex items-start gap-3 mt-4 mb-2 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                    <input type="checkbox" id="privacyConsent" class="mt-1 w-5 h-5 accent-blue-600 cursor-pointer">
+                    <label for="privacyConsent" class="text-[10px] text-slate-500 leading-tight cursor-pointer">
+                        Acepto el tratamiento de mis datos personales conforme a la 
+                        <a href="javascript:void(0)" onclick="openPrivacy()" class="text-blue-600 underline font-bold">Política de Privacidad</a> 
+                        de Meducators S.A.S y la LOPDP de Ecuador.
+                    </label>
+                </div>
+
                 <button onclick="goCareer()" class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black shadow-lg uppercase tracking-widest hover:bg-blue-700 transition">Continuar</button>
             </div>
         </div>
@@ -95,7 +122,13 @@
             
             <a id="waBtn" target="_blank" class="flex items-center justify-center gap-3 bg-[#25D366] text-white py-6 rounded-[2rem] font-black text-lg shadow-xl animate-wsp uppercase px-4"></a>
             
-            <div id="infoBanner" class="mt-8 p-6 rounded-[2.5rem] flex items-center gap-4 text-left border-2">
+            <div class="mt-8 flex flex-col items-center gap-2">
+                <div class="inline-flex items-center bg-red-600 text-white px-5 py-2 rounded-full text-[11px] font-black uppercase urgency-badge shadow-lg shadow-red-200">
+                    🔥 ÚLTIMOS <span class="cupos-count mx-1">--</span> CUPOS DISPONIBLES
+                </div>
+            </div>
+
+            <div id="infoBanner" class="mt-10 p-6 rounded-[2.5rem] flex items-center gap-4 text-left border-2">
                 <div id="infoIcon" class="text-3xl"></div>
                 <p id="infoText" class="text-[11px] font-black uppercase leading-snug italic"></p>
             </div>
@@ -121,6 +154,30 @@
         </div>
         <button onclick="resetCloudDB()" class="mt-8 text-red-400 font-bold text-[9px] uppercase hover:text-red-600 transition tracking-widest">Borrar Servidor (RESET)</button>
     </section>
+    <div id="privacyModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl flex flex-col max-h-[80vh] overflow-hidden border border-slate-100">
+            <div class="p-8 border-b flex justify-between items-center bg-slate-50">
+                <h3 class="font-black text-blue-900 uppercase tracking-tighter italic">Política de Datos - Meducators S.A.S</h3>
+                <button onclick="closePrivacy()" class="text-slate-400 hover:text-red-500 transition text-2xl"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-8 overflow-y-auto text-xs text-slate-600 leading-relaxed space-y-4">
+                <p><strong>1. Responsable:</strong> Meducators S.A.S, con domicilio en Chimborazo, Ecuador, es el responsable del tratamiento de sus datos.</p>
+                <p><strong>2. Finalidad:</strong> Recopilamos su nombre, contacto y puntaje académico para: 
+                    <br>• Gestionar su participación en el simulador.
+                    <br>• Enviarle ofertas comerciales de nuestros cursos por WhatsApp o Email.
+                    <br>• Realizar análisis estadísticos de rendimiento académico nacional.</p>
+                <p><strong>3. Base Legal:</strong> El tratamiento se basa en su consentimiento explícito al marcar la casilla de aceptación.</p>
+                <p><strong>4. Plazo:</strong> Sus datos se conservarán durante el tiempo necesario para cumplir con la asesoría académica o hasta que usted solicite su eliminación.</p>
+                <p><strong>5. Sus Derechos:</strong> Conforme a la LOPDP, usted tiene derecho al acceso, rectificación, eliminación y oposición de sus datos. Para ejercerlos, puede contactarnos a través de nuestro canal oficial de WhatsApp.</p>
+                <div class="p-4 bg-blue-50 rounded-2xl text-blue-800 italic border border-blue-100">
+                    Al usar este simulador, usted reconoce que Meducators S.A.S no tiene relación oficial con el CACES y que los resultados son meramente referenciales para su preparación.
+                </div>
+            </div>
+            <div class="p-6 bg-slate-50 border-t">
+                <button onclick="closePrivacy()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black uppercase tracking-widest transition hover:bg-slate-800">Entendido</button>
+            </div>
+        </div>
+    </div>
 </main>
 
 <footer class="bg-white border-t p-10 mt-12 text-center">
@@ -129,48 +186,117 @@
         <a href="https://www.tiktok.com/@meducatorspro" target="_blank" class="transition transform hover:scale-125"><i class="fab fa-tiktok"></i></a>
         <a href="https://www.facebook.com/p/Meducators-61578339604369/" target="_blank" class="transition transform hover:scale-125"><i class="fab fa-facebook"></i></a>
     </div>
-    <p class="text-[9px] text-slate-300 font-bold uppercase tracking-widest leading-loose">© 2026 Meducators Academy - Aliados de Clínica Sancho</p>
+    <p class="text-[9px] text-slate-300 font-bold uppercase tracking-widest leading-loose">© 2026 Meducators S.A.S</p>
 </footer>
 
 <script>
-// --- CONFIGURACIÓN ---
+// Funciones para la Política de Privacidad
+function openPrivacy() {
+    document.getElementById('privacyModal').classList.remove('hidden');
+}
+
+function closePrivacy() {
+    document.getElementById('privacyModal').classList.add('hidden');
+}
+
+// Cierra el modal si el usuario hace clic fuera de la caja blanca
+window.onclick = function(event) {
+    const modal = document.getElementById('privacyModal');
+    if (event.target == modal) closePrivacy();
+}
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzyuo9DeMvJ7g_O-8Huk9a_eXsWldhRXak_w3AvsNKWx_QX8xwiYV6i-pt6jyuayqrG/exec";
 let db = [], quiz = [], idx = 0, score = 0, time = 600, tInterval, student = {}, hist = [], chart = null, curCareer = "";
-const frases = ["¡Asegura tu sueldo de la Rural! 🩺", "No dejes tu futuro al azar 🇪🇨", "Únete al TOP 5% nacional 🏆", "Formamos líderes de salud 🎓"];
+const frases = [
+    "¡Asegura tu sueldo de la Rural! 🩺", 
+    "No dejes tu futuro al azar 🇪🇨", 
+    "Únete al TOP 5% nacional 🏆", 
+    "Formamos líderes de salud 🎓"
+];
+let iti;
 
 const shuffle = a => { let res = [...a]; for (let i = res.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [res[i], res[j]] = [res[j], res[i]]; } return res; };
 
-async function loadPreguntas() { try { const r = await fetch(SCRIPT_URL); db = await r.json(); document.getElementById('cloudStatus').innerText = "● " + db.length + " Preguntas Online"; document.getElementById('cloudStatus').className = "text-[8px] font-black uppercase text-emerald-500 bg-emerald-50 px-2 py-1 rounded tracking-widest"; updateAdminCounts(); } catch (e) { document.getElementById('cloudStatus').innerText = "● Error de Conexión"; } }
-window.onload = () => { loadPreguntas(); updateCupos(); };
+async function loadPreguntas() { 
+    try { 
+        const r = await fetch(SCRIPT_URL); 
+        db = await r.json(); 
+        document.getElementById('cloudStatus').innerText = "● " + db.length + " Preguntas Online"; 
+        document.getElementById('cloudStatus').className = "text-[8px] font-black uppercase text-emerald-500 bg-emerald-50 px-2 py-1 rounded tracking-widest"; 
+        updateAdminCounts(); 
+    } catch (e) { 
+        document.getElementById('cloudStatus').innerText = "● Error de Conexión"; 
+    } 
+}
 
-const showView = v => { document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden')); document.getElementById(v).classList.remove('hidden'); window.scrollTo(0,0); if(v === 'admin') updateAdminCounts(); };
-const adminLogin = () => { if(prompt("Pass:") === "admin123") showView("admin"); };
+const updateCupos = () => { 
+    const h = new Date().getHours(); 
+    document.querySelectorAll('.cupos-count').forEach(el => el.innerText = Math.max(1, 20 - Math.floor(h * 0.85))); 
+    const phraseEl = document.getElementById('randomPhrase');
+    if(phraseEl) phraseEl.innerText = frases[Math.floor(Math.random() * frases.length)]; 
+};
 
-function updateAdminCounts() { ['MEDICINA', 'ENFERMERIA', 'ODONTOLOGIA'].forEach(c => { const count = db.filter(q => (q.carrera || q.Carrera || "").toString().toUpperCase().trim() === c).length; const el = document.getElementById(`c-${c}`); if(el) el.innerText = count; }); }
-function updateCupos() { const h = new Date().getHours(); document.querySelectorAll('.cupos-count').forEach(el => el.innerText = Math.max(1, 20 - Math.floor(h * 0.85))); document.getElementById('randomPhrase').innerText = frases[Math.floor(Math.random() * frases.length)]; }
+const updateAdminCounts = () => { 
+    ['MEDICINA', 'ENFERMERIA', 'ODONTOLOGIA'].forEach(c => { 
+        const count = db.filter(q => (q.carrera || q.Carrera || "").toString().toUpperCase().trim() === c).length; 
+        const el = document.getElementById(`c-${c}`); 
+        if(el) el.innerText = count; 
+    }); 
+};
+
+const adminLogin = () => { if(prompt("Pass:") === "Meducators123") showView("admin"); };
+
+window.onload = () => { 
+    loadPreguntas(); 
+    updateCupos(); 
+    const inputTel = document.querySelector("#telefono");
+    iti = window.intlTelInput(inputTel, {
+        initialCountry: "ec",
+        separateDialCode: true,
+        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js",
+    });
+};
+
+const showView = v => { 
+    document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden')); 
+    document.getElementById(v).classList.remove('hidden'); 
+    window.scrollTo(0,0); 
+    if(v === 'admin') updateAdminCounts(); 
+};
 
 function goCareer() { 
-    const n = document.getElementById("nombre").value.trim(), m = document.getElementById("correo").value.trim(); 
-    if(!n || !m.includes("@")) return alert("Completa tus datos correctamente."); 
-    student = {nom:n, ape:document.getElementById("apellido").value, tel:document.getElementById("telefono").value, mail:m, fecha: new Date().toLocaleString()}; 
+    const n = document.getElementById("nombre").value.trim();
+    const a = document.getElementById("apellido").value.trim();
+    const m = document.getElementById("correo").value.trim().toLowerCase();
+    const consent = document.getElementById("privacyConsent").checked;
+
+    if(!n || !a || !m) return alert("Por favor, llena todos los campos.");
+    if(!consent) return alert("🔒 Debes aceptar el tratamiento de datos para continuar.");
+    if(!iti.isValidNumber()) return alert("📞 El número de teléfono no es válido.");
+
+    const fullTel = iti.getNumber();
+    const dominios = ['gmail.com', 'hotmail.com', 'outlook.com', 'outlook.es', 'yahoo.com', 'yahoo.es', 'icloud.com', 'live.com', 'me.com'];
+    if (!dominios.includes(m.split('@')[1])) return alert("📧 Usa un correo personal válido (Gmail, Hotmail, etc.).");
+
+    student = {nom:n, ape:a, tel:fullTel, mail:m, fecha: new Date().toLocaleString()}; 
     showView("career"); 
 }
 
-// CAPTURA DE LEAD INICIAL (Apenas eligen carrera)
 function startQuiz(c) { 
     curCareer = c; 
     let filtered = db.filter(q => (q.carrera || q.Carrera || "").toString().toUpperCase().trim() === c.toUpperCase().trim()); 
     if(!filtered.length) { document.getElementById("noQuestionsWarn").classList.remove("hidden"); return; } 
     document.getElementById("noQuestionsWarn").classList.add("hidden"); 
-    
-    // ENVIAR LEAD SIN NOTA (Captura temprana)
     fetch(SCRIPT_URL + "?action=saveLead", {method: 'POST', mode: 'no-cors', body: JSON.stringify({...student, carrera: curCareer, puntaje: "En curso..."})});
-
     quiz = shuffle([...filtered]).slice(0, 10); 
     idx = 0; score = 0; time = 600; hist = []; 
     document.getElementById("careerLabel").innerText = c; 
     showView("quiz"); 
-    tInterval = setInterval(() => { time--; let m = Math.floor(time/60), s = time % 60; document.getElementById("timer").innerText = `${m}:${s.toString().padStart(2,'0')}`; if(time<=0) finish(); }, 1000); 
+    tInterval = setInterval(() => { 
+        time--; 
+        let m = Math.floor(time/60), s = time % 60; 
+        document.getElementById("timer").innerText = `${m}:${s.toString().padStart(2,'0')}`; 
+        if(time<=0) finish(); 
+    }, 1000); 
     loadQ(); 
 }
 
@@ -180,8 +306,6 @@ function loadQ() {
     document.getElementById("question").innerText = q.pregunta || q.Pregunta; 
     document.getElementById("progress").style.width = ((idx + 1) * 10) + "%"; 
     c.innerHTML = ""; 
-    
-    // MEZCLAR OPCIONES CADA VEZ
     let opts = (q.opciones || q.Opciones).split('|').map(o => o.trim()); 
     shuffle([...opts]).forEach(o => { 
         let b = document.createElement("button"); 
@@ -202,43 +326,77 @@ function check(ans, b) {
     setTimeout(() => { idx++; if(idx < 10) loadQ(); else finish(); }, 600); 
 }
 
+function formatFeedback(text) {
+    if (!text) return "No hay explicación disponible.";
+    let f = text
+        .replace(/Respuesta correcta:/gi, '<div class="mt-3"><strong class="text-blue-700 block">✅ Respuesta correcta:</strong>')
+        .replace(/Opciones incorrectas:/gi, '</div><div class="mt-3"><strong class="text-slate-700 block">❌ Opciones incorrectas:</strong>')
+        .replace(/Tip\/Mnemotecnia:/gi, '</div><div class="mt-4 p-3 bg-amber-50 border-l-4 border-amber-400 rounded-r-xl italic text-amber-900"><strong>💡 Tip/Mnemotecnia:</strong>')
+        .replace(/Bibliografía:/gi, '</div><div class="mt-4 pt-2 border-t border-slate-100"><strong class="text-slate-400 text-[10px] uppercase tracking-widest block mb-1">📚 Bibliografía:</strong><span class="text-[10px] text-slate-500">')
+        + '</span></div>';
+    return f.replace(/•/g, '<br><span class="inline-block mr-1 text-slate-400">•</span>');
+}
+
 function finish() {
-    clearInterval(tInterval); showView("results");
+    clearInterval(tInterval); 
+    showView("results");
     let p = score * 10;
     const resTxt = document.getElementById("resTxt"), waBtn = document.getElementById("waBtn"), banner = document.getElementById("infoBanner"), icon = document.getElementById("infoIcon"), text = document.getElementById("infoText");
     document.getElementById("score").innerText = p + "%";
-    document.getElementById("bar").className = `absolute top-0 left-0 w-full h-2 ${p<70?'bg-red-500':'bg-green-500'}`;
+    document.getElementById("bar").className = `absolute top-0 left-0 w-full h-2 ${p < 70 ? 'bg-red-500' : 'bg-green-500'}`;
     
     if(p < 70) {
-        waBtn.innerText = "🚀 Domina el CACES junto a Meducators";
+        waBtn.innerText = "🚀 Asegura tu aprobación con Meducators";
         resTxt.innerHTML = `${student.nom}, asegura tu aprobación con nuestro método.<br><span class="text-red-600 block mt-4 font-black uppercase tracking-tighter">Tu puntaje no es lo suficiente para aprobar.</span>`;
         banner.className = "mt-8 bg-red-50 border-red-100 p-6 rounded-[2.5rem] flex items-center gap-4 text-left border-2";
         icon.className = "text-3xl text-red-500"; icon.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
         text.className = "text-red-700 text-[11px] font-black uppercase leading-snug italic";
-        text.innerText = "Recuerda: Si no obtienes el 70% en el examen te estas perdiendo el sueldo de la rural y vas a estar 6 meses sin chamba.";
+        text.innerText = "Recuerda: Si no obtienes el 70% en el examen te estás perdiendo el sueldo de la rural y vas a estar 6 meses sin chamba.";
     } else {
-        waBtn.innerText = "🏆 Quiero Pertenecer al 5%";
+        waBtn.innerText = "🏆 Quiero entrar al TOP 5% Nacional";
         resTxt.innerHTML = `${student.nom}, asegura tu entrada al 5% con nuestro método.<br><span class="text-blue-600 block mt-4 font-black uppercase tracking-tighter italic">¡Domina el CACES junto a Meducators!</span>`;
         banner.className = "mt-8 bg-blue-50 border-blue-100 p-6 rounded-[2.5rem] flex items-center gap-4 text-left border-2";
         icon.className = "text-3xl text-blue-500"; icon.innerHTML = '<i class="fas fa-medal"></i>';
         text.className = "text-blue-700 text-[11px] font-black uppercase leading-snug italic";
-        text.innerText = "¡Objetivo a la vista! Recuerda: El TOP 5% elige primero su plaza. No te conformes con pasar, domina el examen y asegura la rural que siempre quisiste.";
+        text.innerText = "¡Objetivo a la vista! Recuerda: El TOP 5% elige primero su plaza. Asegura la rural que siempre quisiste.";
     }
     
     waBtn.href = `https://wa.me/593998591941?text=Hola Meducators, soy ${student.nom}. Saqué ${p}% en el simulador y quiero asegurar mi examen y la rural con ustedes.`;
-    
-    // ENVIAR REGISTRO FINAL (Con nota)
     fetch(SCRIPT_URL + "?action=saveLead", {method: 'POST', mode: 'no-cors', body: JSON.stringify({...student, carrera: curCareer, puntaje: p + "%"})});
     
-    const fList = document.getElementById("feedbackList"); fList.innerHTML = `<h3 class="text-2xl font-black text-slate-900 mb-6">📑 Revisión</h3>`;
-    hist.forEach((h, i) => { fList.innerHTML += `<div class="bg-white p-6 rounded-3xl shadow-md border-l-8 ${h.ok?'border-green-500':'border-red-500'} mb-4 text-left"><p class="font-bold text-slate-800 mb-2">${i+1}. ${h.q}</p><div class="text-xs space-y-2"><p><b>Respuesta:</b> <span class="${h.ok?'text-green-600':'text-red-600'}">${h.a}</span></p>${!h.ok?`<p class="text-blue-700 font-bold uppercase">Correcta: ${h.r}</p>`:''}<p class="text-slate-500 italic mt-2 pt-2 border-t"><b>Explicación:</b> ${h.f}</p></div></div>`; });
-    
+    const fList = document.getElementById("feedbackList"); 
+    fList.innerHTML = `<h3 class="text-2xl font-black text-slate-900 mb-6 px-4">📑 Revisión Detallada</h3>`;
+
+    hist.forEach((h, i) => { 
+        fList.innerHTML += `
+            <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 mb-6 text-left relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-2 h-full ${h.ok ? 'bg-green-500' : 'bg-red-500'}"></div>
+                <div class="flex justify-between items-start mb-4">
+                    <span class="bg-slate-100 text-slate-600 text-[10px] font-black px-3 py-1 rounded-full uppercase">Pregunta ${i+1}</span>
+                    ${h.ok ? '<span class="text-green-500 font-bold text-sm">✨ Correcto</span>' : '<span class="text-red-500 font-bold text-sm">❌ Incorrecto</span>'}
+                </div>
+                <p class="font-bold text-slate-800 text-lg mb-4 leading-snug">${h.q}</p>
+                <div class="space-y-3">
+                    <div class="p-4 rounded-2xl ${h.ok ? 'bg-green-50 border border-green-100' : 'bg-red-50 border border-red-100'}">
+                        <p class="text-xs font-black uppercase mb-1 ${h.ok ? 'text-green-700' : 'text-red-700'}">Tu Respuesta:</p>
+                        <p class="text-sm font-bold ${h.ok ? 'text-green-800' : 'text-red-800'}">${h.a}</p>
+                    </div>
+                    <div class="mt-6">
+                        <p class="text-[10px] font-black text-blue-500 uppercase tracking-tighter mb-2">Análisis del Especialista:</p>
+                        <div class="text-sm text-slate-600 leading-relaxed bg-slate-50 p-6 rounded-2xl border border-dashed border-slate-200">${formatFeedback(h.f)}</div>
+                    </div>
+                </div>
+            </div>`; 
+    });
+
     setTimeout(() => {
         const ctx = document.getElementById('gaussChart').getContext('2d');
         if(chart) chart.destroy();
         let curveData = []; for(let i=30; i<=100; i++) curveData.push({x: i, y: Math.exp(-0.5 * ((i - 75) / 12)**2)});
-        chart = new Chart(ctx, { type: 'line', data: { datasets: [{ data: curveData, borderColor: '#1e40af', backgroundColor: 'rgba(30,64,175,0.05)', fill: true, pointRadius: 0, tension: 0.4 }, { data: [{x: p, y: Math.exp(-0.5 * ((p - 75) / 12)**2)}], backgroundColor: '#ef4444', pointRadius: 8, type: 'scatter' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { type: 'linear', min: 30, max: 100, grid: { display: false }, ticks: { font: { size: 9 } } }, y: { display: false } }, plugins: { legend: { display: false }, tooltip: { enabled: false } } } });
+        chart = new Chart(ctx, { type: 'line', data: { datasets: [{ data: curveData, borderColor: '#1e40af', backgroundColor: 'rgba(30,64,175,0.05)', fill: true, pointRadius: 0, tension: 0.4 }, { data: [{x: p, y: Math.exp(-0.5 * ((p - 75) / 12)**2)}], backgroundColor: '#ef4444', pointRadius: 8, type: 'scatter' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { type: 'linear', min: 30, max: 100, grid: { display: false } }, y: { display: false } }, plugins: { legend: { display: false } } } });
     }, 400);
+
+    updateCupos(); 
 }
 
 function upCSV(id) {
